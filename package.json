@@ -1,0 +1,29 @@
+{
+  "name": "github-pr-api",
+  "version": "0.0.1",
+  "description": "A node API to access github repo pull request details",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/bin.js",
+    "dev": "tsc -w",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "github-pr-api": "dist/bin.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micaiahwallace/github-pr-api.git"
+  },
+  "author": "Micaiah Wallace",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/micaiahwallace/github-pr-api/issues"
+  },
+  "homepage": "https://github.com/micaiahwallace/github-pr-api#readme",
+  "devDependencies": {
+    "@types/node": "^16.3.1",
+    "typescript": "^4.3.5"
+  }
+}
