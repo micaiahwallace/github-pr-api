@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = __importDefault(require("./index"));
-index_1.default.run();
+var index_1 = require("./index");
+// Temporarily run with static parameters
+// @TODO - implement cli
+index_1.run("127.0.0.1", 8080);

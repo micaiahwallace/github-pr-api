@@ -73,7 +73,6 @@ GET /pulls?repo=mongodb/mongo&per_page=50&page=3
   ...
   "items": [
     {
-      "id": 942018531,
       "number": 1409,
       "title": "SERVER-58467 Czech and Slovak FTS stemmers",
       ...

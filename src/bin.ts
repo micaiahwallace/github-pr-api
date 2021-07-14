@@ -1,4 +1,6 @@
 #!/usr/bin/env node
-import GithubPrQuery from "./index"
+import { run } from "./index"
 
-GithubPrQuery.run()
+// Temporarily run with static parameters
+// @TODO - implement cli
+run("127.0.0.1", 8080)
