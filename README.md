@@ -2,7 +2,7 @@
 
 The purpose of this API is to allow the client to access detailed information about open pull requests for a given github repository. The project is a standalone node API that can be run on any machine that has the node runtime installed.
 
-## Quick Start
+# Quick Start
 
 **Prerequisites: Install the [Node Runtime](https://nodejs.org/en/)**
 
@@ -30,7 +30,7 @@ $ cd github-pr-api
 $ # Inside the project directory, install dependencies using npm
 $ npm install
 
-$ # Start up the server, the api url will be log to the console
+$ # Start up the server, the api url will log to the console
 $ npm start # Append CLI options here
 ```
 
@@ -41,5 +41,81 @@ github-pr-api [options]
 
 Options:
   --ip    127.0.0.1 - IP address to bind, default: 0.0.0.0 for all ip's
-  --port  8080      - Port to bind, default: 0 to let system decide
+  --port  8080      - Port to bind, 0 to let system decide, default: 8080
+```
+
+# API Documentation
+
+## Fetch all Pull Requests
+
+`GET /pulls` - Fetch a list of pull requests for a given repository
+
+**Query Parameters**
+
+* **repo** - Specify the repository URL in one of the following formats:
+    * Full url: `https://github.com/user/repo`
+    * Schemaless: `github.com/user/repo`
+    * Just repo: `user/repo`
+* **per_page** - Max number of results to return per response page (default: 30)
+* **page** - Page number to start at based on per_page number (default: 1)
+
+**Example Request**
+
+```bash
+# Retreive the 3rd page of mongodb pull requests for a 50 count page
+GET /pulls?repo=mongodb/mongo&per_page=50&page=3
+```
+
+**Example Response**
+```json
+{
+  "total_count": 57,
+  ...
+  "items": [
+    {
+      "id": 942018531,
+      "number": 1409,
+      "title": "SERVER-58467 Czech and Slovak FTS stemmers",
+      ...
+    }
+    ...
+  ]
+}
+```
+
+---
+
+## Get a single Pull Request
+
+`GET /pulls/{pr}` - Fetch a pull request details by pr number
+
+**URL Parameters**
+
+* **pr** - A pull-request number for a repository
+
+**Query Parameters**
+
+* **repo** - Specify the repository URL in one of the following formats:
+    * Full url: `https://github.com/user/repo`
+    * Schemaless: `github.com/user/repo`
+    * Just repo: `user/repo`
+
+**Example Request**
+
+```bash
+# Retreive a specific pull request on the mongodb repo
+GET /pulls/1380?repo=mongodb/mongo
+```
+
+**Example Response**
+```json
+{
+  "number": 1380,
+  "title": "Update baton.md",
+  "state": "open",
+  "locked": false,
+  "merged": false,
+  "commits": 1,
+  ...
+}
 ```
