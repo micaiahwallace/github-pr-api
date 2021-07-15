@@ -1,38 +1,57 @@
 import http from "http"
-import { APIRouter, APIRoute } from "./apiRouter"
-import { ExpressRouter } from "./expressRouter"
+import Express from "express"
+import { Logger } from "./logger";
+import { AddressInfo } from "net";
 
 /**
- * A server hosts an api router on a tcp socket
+ * Constructor options for Server
  */
-class Server {
+export interface ServerOptions {
+  host: string;
+  port: number;
+  app: Express.Application;
+  logger?: Logger;
+}
+
+/**
+ * A server hosts an express router on a tcp socket
+ */
+export class Server {
   
   host: string;
   port: number;
-  router: APIRouter;
+  app: Express.Application;
+  logger: Logger;
   socket: http.Server;
 
-  constructor(host: string, port: number) {
-    this.host = host
-    this.port = port
-    this.router = new ExpressRouter()
-    this.socket = http.createServer(this.router.requestListener())
-    // @TODO - add event listeners for the http.Server
+  constructor({ host, port, app, logger }: ServerOptions) {
+    this.host = host;
+    this.port = port;
+    this.app = app;
+    this.logger = logger ?? new Logger();
+    this.socket = http.createServer(this.app);
   }
 
   /**
-   * Bind the server to a host:port
+   * Bind the server to the tcp socket
+   * @param onListen Callback assigned to 'listening' event
    */
-  start() {
-    this.socket.listen(this.port, this.host)
+  start(onListen: ()=>void) {
+    this.socket.listen(this.port, this.host, () => {
+      const addr = this.socket.address() as AddressInfo;
+      this.host = addr.address;
+      this.port = addr.port;
+      onListen();
+    });
   }
 
   /**
-   * Add an array of routes to the router
+   * Get the address of the server as a string
+   * @param full If the output should contain the schema. Default: false
    */
-  addRoutes(routes: Array<APIRoute>) {
-    routes.forEach(route => this.router.addRoute(route))
+  address(full: boolean = false): string {
+    const schema = "http://";
+    const address = `${this.host}:${this.port}`;
+    return `${full && schema}${address}`;
   }
 }
-
-export default Server;

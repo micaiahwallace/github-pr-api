@@ -1,9 +1,17 @@
+import Express from "express"
 
-
-export const GetAllPullRequests = () => {
-
+/**
+ * Retrieve github repo pull requests
+ */
+export const GetAllPullRequests = (req: Express.Request, res: Express.Response) => {
+  res.status(500);
+  res.json({ error: "Not implemented" });
 };
 
-export const GetPullRequest = () => {
-
+/**
+ * Retrieve specific details about a github repo pull request
+ */
+export const GetPullRequest = (req: Express.Request, res: Express.Response) => {
+  res.status(500);
+  res.json({ error: "Not implemented" });
 };
