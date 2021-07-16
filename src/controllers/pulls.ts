@@ -37,12 +37,12 @@ export const GetPullRequest = async (req: Express.Request, res: Express.Response
 
     const query = GetPullRequestSchema.query.validate(req.query);
     const params = GetPullRequestSchema.params.validate(req.params);
-    
+
     if (query.error) {
       res.status(422).json({ error: query.error });
       return;
     }
-    
+
     if (params.error) {
       res.status(422).json({ params: params.error });
       return;

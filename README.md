@@ -31,7 +31,7 @@ $ # Inside the project directory, install dependencies using npm
 $ npm install
 
 $ # Start up the server, the api url will log to the console
-$ npm start # Append CLI options here
+$ npm start -- --host 127.0.0.1 --port 5000
 ```
 
 ## CLI Options
@@ -40,8 +40,8 @@ Further configuration can be specified with the following command line flags:
 github-pr-api [options]
 
 Options:
-  --ip    127.0.0.1 - IP address to bind, default: 0.0.0.0 for all ip's
-  --port  8080      - Port to bind, 0 to let system decide, default: 8080
+  --ip    127.0.0.1 - Optional: IP address to bind, default: 0.0.0.0 for all ip's
+  --port  8080      - Optional: Port to bind, 0 to let system decide, default: 8080
 ```
 
 # API Documentation

@@ -1,6 +1,13 @@
 #!/usr/bin/env node
-import { run } from "./index"
+import arg from "arg";
+import { run } from "./index";
 
-// Temporarily run with static parameters
-// @TODO - implement cli
-run("0.0.0.0", 8080)
+const args = arg({
+  "--host": String,
+  "--port": Number,
+});
+
+const host = args["--host"] ?? "0.0.0.0";
+const port = args["--port"] ?? 8080;
+
+run(host, port);

@@ -16,7 +16,6 @@ function ListPullRequests(repo, per_page, page) {
 exports.ListPullRequests = ListPullRequests;
 function GetPullRequest(repo, pr_number) {
     var url = "repos/" + repo + "/pulls/" + pr_number;
-    console.log(url);
     return ghRequest_1.ghRequest(url).json();
 }
 exports.GetPullRequest = GetPullRequest;

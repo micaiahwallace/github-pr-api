@@ -5,6 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ghRequest = void 0;
 var got_1 = __importDefault(require("got"));
+/**
+ * Github request got instance
+ */
 exports.ghRequest = got_1.default.extend({
     prefixUrl: "https://api.github.com",
     headers: {

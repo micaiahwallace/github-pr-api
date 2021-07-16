@@ -31,6 +31,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "arg": "^5.0.0",
     "express": "^4.17.1",
     "got": "^11.8.2",
     "joi": "^17.4.1"
