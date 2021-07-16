@@ -3,22 +3,19 @@ import parseRepoUrl from "./parseRepoUrl";
 test("parsing full url", () => {
   const url = "https://github.com/mongodb/mongo";
   const result = parseRepoUrl(url);
-  expect(result.user).toBe("mongodb");
-  expect(result.repo).toBe("mongo");
+  expect(result).toBe("mongodb/mongo");
 })
 
 test("parsing schema-less url", () => {
   const url = "github.com/mongodb/mongo";
   const result = parseRepoUrl(url);
-  expect(result.user).toBe("mongodb");
-  expect(result.repo).toBe("mongo");
+  expect(result).toBe("mongodb/mongo");
 })
 
 test("parsing user/repo format", () => {
   const url = "mongodb/mongo";
   const result = parseRepoUrl(url);
-  expect(result.user).toBe("mongodb");
-  expect(result.repo).toBe("mongo");
+  expect(result).toBe("mongodb/mongo");
 })
 
 test("throws when parsing an invalid repo url", () => {

@@ -15,13 +15,9 @@ function parseRepoUrl(url) {
     // Last 2 parts of url path are the user and repo
     var user = pathParts[pathParts.length - 2].trim();
     var repo = pathParts[pathParts.length - 1].trim();
-    // Ensure that user and repo have actual values
     if (user.length === 0 || repo.length === 0) {
         throw new Error("invalid url format");
     }
-    return {
-        user: user,
-        repo: repo,
-    };
+    return user + "/" + repo;
 }
 exports.default = parseRepoUrl;
