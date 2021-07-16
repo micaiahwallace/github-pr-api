@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -40,35 +59,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetPullRequest = exports.GetAllPullRequests = void 0;
-var githubPr_1 = require("../lib/githubPr");
+var Github = __importStar(require("../lib/githubPr"));
 var parseRepoUrl_1 = __importDefault(require("../lib/parseRepoUrl"));
+var pulls_1 = require("../schema/pulls");
 /**
  * Retrieve github repo pull requests
  */
 var GetAllPullRequests = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var per_page, page, repo, pullRequests, err_1;
-    var _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
+    var query, repo, page, per_page, pullRequests, err_1;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _d.trys.push([0, 2, , 3]);
-                if (typeof req.query.repo !== "string")
-                    throw new Error("bad request");
-                if (typeof req.query.page !== "string" && typeof req.query.page !== "undefined")
-                    throw new Error("bad request");
-                if (typeof req.query.per_page !== "string" && typeof req.query.per_page !== "undefined")
-                    throw new Error("bad request");
-                per_page = Number.parseInt((_a = req.query.per_page) !== null && _a !== void 0 ? _a : "30");
-                page = Number.parseInt((_b = req.query.page) !== null && _b !== void 0 ? _b : "1");
-                repo = parseRepoUrl_1.default(req.query.repo);
-                return [4 /*yield*/, githubPr_1.ListPullRequests(repo, per_page, page)];
+                _b.trys.push([0, 2, , 3]);
+                query = pulls_1.GetAllPullRequestSchema.query.validate(req.query);
+                if (query.error) {
+                    res.status(422).json({ error: query.error });
+                    return [2 /*return*/];
+                }
+                repo = parseRepoUrl_1.default(query.value.repo);
+                page = query.value.page;
+                per_page = query.value.per_page;
+                return [4 /*yield*/, Github.ListPullRequests(repo, per_page, page)];
             case 1:
-                pullRequests = _d.sent();
+                pullRequests = _b.sent();
                 res.json(pullRequests);
                 return [3 /*break*/, 3];
             case 2:
-                err_1 = _d.sent();
-                res.json({ error: (_c = err_1.message) !== null && _c !== void 0 ? _c : err_1 });
+                err_1 = _b.sent();
+                res.json({ error: (_a = err_1.message) !== null && _a !== void 0 ? _a : err_1 });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -78,14 +97,36 @@ exports.GetAllPullRequests = GetAllPullRequests;
 /**
  * Retrieve specific details about a github repo pull request
  */
-var GetPullRequest = function (req, res) {
+var GetPullRequest = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var query, params, repo, pr, pullRequest, err_2;
     var _a;
-    try {
-        var repo = req.query.repo;
-        var pr = req.params.pr;
-    }
-    catch (err) {
-        res.json({ error: (_a = err.message) !== null && _a !== void 0 ? _a : err });
-    }
-};
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                query = pulls_1.GetPullRequestSchema.query.validate(req.query);
+                params = pulls_1.GetPullRequestSchema.params.validate(req.params);
+                if (query.error) {
+                    res.status(422).json({ error: query.error });
+                    return [2 /*return*/];
+                }
+                if (params.error) {
+                    res.status(422).json({ params: params.error });
+                    return [2 /*return*/];
+                }
+                repo = parseRepoUrl_1.default(query.value.repo);
+                pr = params.value.pr;
+                return [4 /*yield*/, Github.GetPullRequest(repo, pr)];
+            case 1:
+                pullRequest = _b.sent();
+                res.json(pullRequest);
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _b.sent();
+                res.json({ error: (_a = err_2.message) !== null && _a !== void 0 ? _a : err_2 });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.GetPullRequest = GetPullRequest;
