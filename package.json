@@ -1,6 +1,6 @@
 {
   "name": "github-pr-api",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "A node API to access github repo pull request details",
   "main": "dist/index.js",
   "scripts": {
